@@ -8,6 +8,10 @@ const app = express();
 
 app.use(express.json());
 
+import authRoutes from "./src/routes/authRoutes.js"
+
+app.use("/api/auth",authRoutes)
+
 app.get("/", (req, res) => {
   res.json({ message: "Task Management System API Running" });
 });
