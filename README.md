@@ -5,7 +5,7 @@ A backend-focused task management system with authentication and role-based acce
 ## 📁 Project Status
 
 - [x] Project initialization
-- [ ] Backend setup
+- [x] Backend setup
 - [ ] Authentication (JWT)
 - [ ] Role-based access
 - [ ] Task CRUD
