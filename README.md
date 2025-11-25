@@ -15,6 +15,7 @@ A backend-focused task management system with authentication and role-based acce
 - [x] Centralized error handler
 - [x] Security middlewares & request logging
 - [x] API Versioning
+- [x] Postman API Collection Added
 - [ ] Frontend UI
 
 ## 📂 Current Structure
