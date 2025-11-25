@@ -58,3 +58,43 @@ export const getTaskController = async (req, res) => {
     });
   }
 };
+
+// Update Task
+export const updateTaskController = async (req, res) => {
+  try {
+    const { id } = req.params; //taksId from URL
+    const updates = req.body;
+
+    //find task
+    const task = await Task.findById(id);
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    if (
+      req.user.role !== "admin" &&
+      task.createdBy.toString() !== req.user._id.toString()
+    ) {
+      return res.status(403).json({
+        message: "You don't have permission to update this task",
+      });
+    }
+
+    Object.assign(task, updates);
+
+    await task.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Task update successfully",
+      task,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update task",
+      error: error.message,
+    });
+  }
+};

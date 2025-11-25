@@ -4,6 +4,7 @@ import { authorizeRole } from "../middleware/authorizeRole.js";
 import {
   createTaskController,
   getTaskController,
+  updateTaskController,
 } from "../controllers/taskController.js";
 
 const router = express.Router();
@@ -14,7 +15,12 @@ router.post(
   authorizeRole("user", "admin"),
   createTaskController
 );
-
 router.get("/", protect, authorizeRole("user", "admin"), getTaskController);
+router.put(
+  "/update/:id",
+  protect,
+  authorizeRole("user", "admin"),
+  updateTaskController
+);
 
 export default router;
