@@ -7,6 +7,8 @@ import {
   updateTaskController,
   deleteTaskController,
 } from "../controllers/taskController.js";
+import { validate } from "../middleware/validationMiddleware.js";
+import { createTaskSchema } from "../validations/taskValidation.js";
 
 const router = express.Router();
 
@@ -14,6 +16,7 @@ router.post(
   "/create",
   protect,
   authorizeRole("user", "admin"),
+  validate(createTaskSchema), // <-- added validation
   createTaskController
 );
 
