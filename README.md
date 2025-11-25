@@ -12,6 +12,7 @@ A backend-focused task management system with authentication and role-based acce
 - [x] Task Model Added
 - [x] Task CRUD
 - [x] Input validation (Joi)
+- [x] Centralized error handler
 - [ ] Frontend UI
 
 ## 📂 Current Structure
