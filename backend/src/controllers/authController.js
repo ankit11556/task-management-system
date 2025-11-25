@@ -1,15 +1,16 @@
 import User from "../models/User.js";
 import { setTokenCookie } from "../utils/cookie.js";
 import { generateToken } from "../utils/jwt.js";
+import AppError from "../utils/AppError.js";
 
 //Register Controller
-export const registerController = async (req, res) => {
+export const registerController = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     const existUser = await User.findOne({ email });
 
     if (existUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return next(new AppError("User already exists", 400));
     }
 
     const user = await User.create({ name, email, password });
@@ -25,25 +26,19 @@ export const registerController = async (req, res) => {
       },
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 //Login Controller
-export const loginController = async (req, res) => {
+export const loginController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: "User not found. Please register first." });
+      return next(new AppError("User not found. Please register first.", 404));
     }
 
     // Compare passwords using model method
@@ -67,10 +62,6 @@ export const loginController = async (req, res) => {
       },
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      error: error.message,
-    });
+    next(error);
   }
 };

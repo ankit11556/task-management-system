@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDb from "./src/config/database.js";
 import cookieParser from "cookie-parser";
+import errorHandler from "./src/middleware/errorMiddleware.js";
 dotenv.config();
 
 const app = express();
@@ -18,6 +19,8 @@ app.use("/api/tasks", taskRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "Task Management System API Running" });
 });
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

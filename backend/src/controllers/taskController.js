@@ -1,4 +1,5 @@
 import Task from "../models/Task.js";
+import AppError from "../utils/AppError.js";
 
 //Create Task
 export const createTaskController = async (req, res) => {
@@ -6,7 +7,7 @@ export const createTaskController = async (req, res) => {
     const { title, description, status, priority, deadline } = req.body;
 
     if (!title) {
-      return res.status(400).json({ message: "Title is required" });
+      return next(new AppError("Title is required", 400));
     }
 
     const task = await Task.create({
@@ -24,11 +25,7 @@ export const createTaskController = async (req, res) => {
       task,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to create task",
-      error: error.message,
-    });
+    next(error); // send to global handler
   }
 };
 
@@ -51,11 +48,7 @@ export const getTaskController = async (req, res) => {
       tasks,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch tasks",
-      error: error.message,
-    });
+    next(error); // send to global handler
   }
 };
 
@@ -69,16 +62,16 @@ export const updateTaskController = async (req, res) => {
     const task = await Task.findById(id);
 
     if (!task) {
-      return res.status(404).json({ message: "Task not found" });
+      return next(new AppError("Task not found", 404));
     }
 
     if (
       req.user.role !== "admin" &&
       task.createdBy.toString() !== req.user._id.toString()
     ) {
-      return res.status(403).json({
-        message: "You don't have permission to update this task",
-      });
+      return next(
+        new AppError("You don't have permission to update this task", 403)
+      );
     }
 
     Object.assign(task, updates);
@@ -91,11 +84,7 @@ export const updateTaskController = async (req, res) => {
       task,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update task",
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -107,7 +96,7 @@ export const deleteTaskController = async (req, res) => {
     const task = await Task.findById(id);
 
     if (!task) {
-      return res.status(404).json({ message: "Task not found" });
+      return next(new AppError("Task not found", 404));
     }
 
     // Permission check (only admin or owner can delete)
@@ -115,9 +104,9 @@ export const deleteTaskController = async (req, res) => {
       req.user.role !== "admin" &&
       task.createdBy.toString() !== req.user._id.toString()
     ) {
-      return res.status(403).json({
-        message: "You don't have permission to delete this task",
-      });
+      return next(
+        new AppError("You don't have permission to delete this task", 403)
+      );
     }
 
     await task.deleteOne();
@@ -128,10 +117,6 @@ export const deleteTaskController = async (req, res) => {
       deletedTask: task,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to delete task",
-      error: error.message,
-    });
+    next(error);
   }
 };
