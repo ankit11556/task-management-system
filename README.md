@@ -10,7 +10,7 @@ A backend-focused task management system with authentication and role-based acce
 - [x] Authentication (JWT)
 - [x] Role-based access
 - [x] Task Model Added
-- [ ] Task CRUD
+- [x] Task CRUD
 - [ ] Frontend UI
 
 ## 📂 Current Structure
