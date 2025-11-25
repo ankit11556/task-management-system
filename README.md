@@ -9,6 +9,7 @@ A backend-focused task management system with authentication and role-based acce
 - [x] Database connection (MongoDB)
 - [x] Authentication (JWT)
 - [x] Role-based access
+- [x] Task Model Added
 - [ ] Task CRUD
 - [ ] Frontend UI
 
