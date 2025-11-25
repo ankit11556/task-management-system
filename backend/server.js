@@ -7,6 +7,25 @@ dotenv.config();
 
 const app = express();
 
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import mongoSanitize from "express-mongo-sanitize";
+import cors from "cors";
+import morgan from "morgan";
+
+app.use(helmet());
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true })); // allow frontend origin later restrict
+app.use(mongoSanitize());
+app.use(morgan("dev"));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(limiter);
+
 app.use(express.json());
 app.use(cookieParser());
 
