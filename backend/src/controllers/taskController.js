@@ -98,3 +98,40 @@ export const updateTaskController = async (req, res) => {
     });
   }
 };
+
+//Delete Task
+export const deleteTaskController = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const task = await Task.findById(id);
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    // Permission check (only admin or owner can delete)
+    if (
+      req.user.role !== "admin" &&
+      task.createdBy.toString() !== req.user._id.toString()
+    ) {
+      return res.status(403).json({
+        message: "You don't have permission to delete this task",
+      });
+    }
+
+    await task.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Task deleted successfully",
+      deletedTask: task,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete task",
+      error: error.message,
+    });
+  }
+};

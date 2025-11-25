@@ -5,6 +5,7 @@ import {
   createTaskController,
   getTaskController,
   updateTaskController,
+  deleteTaskController,
 } from "../controllers/taskController.js";
 
 const router = express.Router();
@@ -15,12 +16,21 @@ router.post(
   authorizeRole("user", "admin"),
   createTaskController
 );
+
 router.get("/", protect, authorizeRole("user", "admin"), getTaskController);
+
 router.put(
   "/update/:id",
   protect,
   authorizeRole("user", "admin"),
   updateTaskController
+);
+
+router.delete(
+  "/delete/:id",
+  protect,
+  authorizeRole("user", "admin"),
+  deleteTaskController
 );
 
 export default router;
