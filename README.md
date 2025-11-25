@@ -14,6 +14,7 @@ A backend-focused task management system with authentication and role-based acce
 - [x] Input validation (Joi)
 - [x] Centralized error handler
 - [x] Security middlewares & request logging
+- [x] API Versioning
 - [ ] Frontend UI
 
 ## 📂 Current Structure
