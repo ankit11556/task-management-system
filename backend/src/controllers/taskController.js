@@ -2,7 +2,7 @@ import Task from "../models/Task.js";
 import AppError from "../utils/AppError.js";
 
 //Create Task
-export const createTaskController = async (req, res) => {
+export const createTaskController = async (req, res, next) => {
   try {
     const { title, description, status, priority, deadline } = req.body;
 
@@ -30,7 +30,7 @@ export const createTaskController = async (req, res) => {
 };
 
 //Get Task
-export const getTaskController = async (req, res) => {
+export const getTaskController = async (req, res, next) => {
   try {
     let tasks;
 
@@ -53,7 +53,7 @@ export const getTaskController = async (req, res) => {
 };
 
 // Update Task
-export const updateTaskController = async (req, res) => {
+export const updateTaskController = async (req, res, next) => {
   try {
     const { id } = req.params; //taksId from URL
     const updates = req.body;
@@ -89,7 +89,7 @@ export const updateTaskController = async (req, res) => {
 };
 
 //Delete Task
-export const deleteTaskController = async (req, res) => {
+export const deleteTaskController = async (req, res, next) => {
   try {
     const { id } = req.params;
 
