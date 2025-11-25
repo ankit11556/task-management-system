@@ -10,8 +10,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 import authRoutes from "./src/routes/authRoutes.js";
+import taskRoutes from "./src/routes/taskRoutes.js";
 
 app.use("/api/auth", authRoutes);
+app.use("/api/tasks", taskRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Task Management System API Running" });
