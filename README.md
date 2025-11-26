@@ -1,6 +1,69 @@
 # Task Management System
 
-A backend-focused task management system with authentication and role-based access control.
+A full-stack task management system with authentication, role-based access, task CRUD, caching, and a clean React frontend.
+
+📌 Features
+🔐 Authentication
+
+User registration & login
+
+JWT-based auth
+
+Protected routes
+
+Role-based access (admin/user)
+
+📝 Task Management
+
+Create, Read, Update, Delete tasks
+
+Admin: access all tasks
+
+User: access only their tasks
+
+⚡ Performance
+
+Redis caching for GET tasks
+
+Returns "source": "cache" or "source": "db"
+
+🛡 Backend Quality
+
+Centralized error handler
+
+Input validation with Joi
+
+Winston request + error logging
+
+API versioning
+
+Security middlewares (helmet, morgan, rate-limiter)
+
+🖥 Frontend
+
+React + Vite + Tailwind CSS
+
+Login / Signup pages
+
+Protected routes
+
+Add task UI
+
+All tasks UI
+
+Logout
+
+Clean, minimal UI
+
+🛠 Tech Stack
+
+Frontend: React, Tailwind CSS, React Router
+Backend: Node.js, Express.js
+Database: MongoDB
+Cache: Redis
+Auth: JWT
+Logging: Winston
+Tools: Postman, Vite
 
 ## 📁 Project Status
 
@@ -20,4 +83,21 @@ A backend-focused task management system with authentication and role-based acce
 - [x] Redis caching implemented for GET tasks (cache & DB source)
 - [x] Frontend UI (Login, Signup, Add Task, All Tasks, Protected Routes, Logout)
 
-## 📂 Current Structure
+🚀 Installation & Setup
+
+## Backend
+cd backend
+npm install
+npm run dev
+
+## Frontend
+cd frontend
+npm install
+npm run dev
+
+🧪 Postman Collection
+
+ ## The complete Postman collection is available here:
+
+/postman
+
