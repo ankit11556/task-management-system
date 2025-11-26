@@ -18,6 +18,6 @@ A backend-focused task management system with authentication and role-based acce
 - [x] Postman API Collection Added
 - [x] Logging system using Winston (Request & Error Logging)
 - [x] Redis caching implemented for GET tasks (cache & DB source)
-- [ ] Frontend UI
+- [x] Frontend UI (Login, Signup, Add Task, All Tasks, Protected Routes, Logout)
 
 ## 📂 Current Structure
