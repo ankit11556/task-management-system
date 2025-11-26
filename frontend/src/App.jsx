@@ -1,13 +1,13 @@
-
+import Navbar from './components/Navbar'
  import './App.css'
 
 function App() {
  
 
   return (
-    <>
-      <div className='text-red-500'>hello world</div>
-    </>
+    <div className='min-h-screen bg-gray-100'>
+      <Navbar></Navbar>
+    </div>
   )
 }
 
