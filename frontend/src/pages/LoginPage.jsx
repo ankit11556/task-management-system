@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginApi } from "../api/AuthApi";
 import toast from "react-hot-toast";
+import { useAuth } from "../contexts/AuthContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { setIsAutheticated, setUser } = useAuth();
 
   const navigate = useNavigate();
 
@@ -19,11 +22,13 @@ const LoginPage = () => {
     try {
       const res = await loginApi({ email, password });
       toast.success(res.data.message);
+      setIsAutheticated(true);
+      setUser(res.data.user);
       navigate("/");
     } catch (error) {
       console.log("Error object:", error);
       const errorMessage =
-      error?.response?.data?.error || "Something went wrong!";
+        error?.response?.data?.error || "Something went wrong!";
       toast.error(errorMessage);
     }
   };
