@@ -26,6 +26,7 @@ import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 import cors from "cors";
 import morgan from "morgan";
+import { requestLogger } from "./src/middleware/requestLogger.js";
 
 app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true })); // allow frontend origin later restrict
@@ -39,6 +40,7 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 app.use(limiter);
+app.use(requestLogger);
 
 import authRoutes from "./src/routes/authRoutes.js";
 import taskRoutes from "./src/routes/taskRoutes.js";
