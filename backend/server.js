@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDb from "./src/config/database.js";
 import cookieParser from "cookie-parser";
 import errorHandler from "./src/middleware/errorMiddleware.js";
+import redisClient from "./src/utils/redisClient.js";
 dotenv.config();
 
 const app = express();
@@ -56,8 +57,9 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-connectDb().then(() => {
+connectDb().then(async () => {
+  redisClient;
   app.listen(PORT, () => {
-    console.log(`server is running at http://localhost:${PORT}`);
+    console.log(`Server is running at http://localhost:${PORT}`);
   });
 });

@@ -1,5 +1,12 @@
 import Task from "../models/Task.js";
 import AppError from "../utils/AppError.js";
+import redisClient from "../utils/redisClient.js";
+
+//Helper function to clear cache
+const clearTaskCache = async (userId) => {
+  await redisClient.del("tasks:all"); //Admin cache
+  await redisClient.del(`tasks:user:${userId}`); //User-specific cache
+};
 
 //Create Task
 export const createTaskController = async (req, res, next) => {
@@ -19,6 +26,9 @@ export const createTaskController = async (req, res, next) => {
       createdBy: req.user._id, // logged-in user
     });
 
+    // Clear cache
+    await clearTaskCache(req.user._id);
+
     return res.status(201).json({
       success: true,
       message: "Task created successfully",
@@ -32,6 +42,20 @@ export const createTaskController = async (req, res, next) => {
 //Get Task
 export const getTaskController = async (req, res, next) => {
   try {
+    const cacheKey =
+      req.user.role === "admin" ? "tasks:all" : `tasks:user:${req.user._id}`;
+
+    // Clear cache
+    const cachedTasks = await redisClient.get(cacheKey);
+    if (cachedTasks) {
+      return res.status(200).json({
+        success: true,
+        source: "cache",
+        count: JSON.parse(cachedTasks).length,
+        tasks: JSON.parse(cachedTasks),
+      });
+    }
+
     let tasks;
 
     // If admin => get all tasks
@@ -42,10 +66,14 @@ export const getTaskController = async (req, res, next) => {
       tasks = await Task.find({ createdBy: req.user._id });
     }
 
+    // Save to cache for 60 seconds
+    await redisClient.setEx(cacheKey, 60, JSON.stringify(tasks));
+
     return res.status(200).json({
       success: true,
       count: tasks.length,
       tasks,
+      source: "db", // indicate fetched from database
     });
   } catch (error) {
     next(error); // send to global handler
@@ -77,6 +105,9 @@ export const updateTaskController = async (req, res, next) => {
     Object.assign(task, updates);
 
     await task.save();
+
+    // Clear cache
+    await clearTaskCache(req.user._id);
 
     return res.status(200).json({
       success: true,
@@ -110,6 +141,9 @@ export const deleteTaskController = async (req, res, next) => {
     }
 
     await task.deleteOne();
+
+    // Clear cache
+    await clearTaskCache(req.user._id);
 
     return res.status(200).json({
       success: true,
