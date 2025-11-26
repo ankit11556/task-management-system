@@ -16,6 +16,7 @@ A backend-focused task management system with authentication and role-based acce
 - [x] Security middlewares & request logging
 - [x] API Versioning
 - [x] Postman API Collection Added
+- [x] Logging system using Winston (Request & Error Logging)
 - [ ] Frontend UI
 
 ## 📂 Current Structure
