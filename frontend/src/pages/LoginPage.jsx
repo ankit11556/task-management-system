@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginApi } from "../api/AuthApi";
 import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,10 +19,11 @@ const LoginPage = () => {
     try {
       const res = await loginApi({ email, password });
       toast.success(res.data.message);
+      navigate("/");
     } catch (error) {
       console.log("Error object:", error);
       const errorMessage =
-        error?.response?.data?.error || "Something went wrong!";
+      error?.response?.data?.error || "Something went wrong!";
       toast.error(errorMessage);
     }
   };

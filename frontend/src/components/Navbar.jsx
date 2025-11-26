@@ -5,8 +5,13 @@ const Navbar = () => {
       <h2 className="text-2xl font-bold">Task Management</h2>
 
       <ul className="flex flex-row text-lg gap-8">
-        <li className="hover:text-gray-400 cursor-pointer">Add Task</li>
+        <Link to="/">
+          <li className="hover:text-gray-400 cursor-pointer">Add Task</li>
+        </Link>
+
+        <Link to="all-tasks">
         <li className="hover:text-gray-400 cursor-pointer">All Tasks</li>
+        </Link>
       </ul>
 
       <Link to="/login">
